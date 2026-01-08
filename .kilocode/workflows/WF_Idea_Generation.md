@@ -1,4 +1,4 @@
-## 🛠 Workflow: WF_Idea_Generation
+# WF_Idea_Generation
 
 **Cel:** Wygenerowanie 3-5 wysokiej jakości, zweryfikowanych wstępnie koncepcji SaaS, które rozwiązują realne problemy i są możliwe do dowiezienia przez jedną osobę.
 

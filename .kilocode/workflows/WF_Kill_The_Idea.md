@@ -1,4 +1,4 @@
-## 🛠 Workflow: WF_Kill_The_Idea (The Pre-Mortem)
+# WF_Kill_The_Idea (The Pre-Mortem)
 
 **Cel:** Przeprowadzenie brutalnie szczerego audytu ryzyka, który ma na celu "zabicie" słabego pomysłu na etapie koncepcyjnym lub zidentyfikowanie krytycznych zagrożeń, które muszą zostać rozwiązane przed startem.
 
