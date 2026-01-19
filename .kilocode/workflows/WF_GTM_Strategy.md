@@ -80,5 +80,3 @@ Dla pierwszych 90 dni wypisz 6‑8 eksperymentów priorytetyzowanych wg RICE/ICE
 
 > Gdy wywołasz `WF_GTM_Strategy`, zbierz 3 kluczowe informacje od użytkownika: 1) krótki opis produktu + 1‑liner, 2) etap produktu (Idea/MVP/PMF), 3) docelowy ICP. Na tej podstawie wygeneruj dopasowany plan GTM w formacie: ICP, Messaging, 3 kanały do natychmiastowego testu, 5‑punktowy plan launchu oraz 5 eksperymentów priorytetyzowanych. Każdy eksperyment powinien mieć prostą metrykę sukcesu.
 
-
-```
