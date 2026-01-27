@@ -2,7 +2,7 @@
 
 ## Project Owner
 Oskar Wyszkowski  
-Student kognitywistyki  
+Student Kognitywistyki  
 
 ## Project Status
 Gotowy do MVP
