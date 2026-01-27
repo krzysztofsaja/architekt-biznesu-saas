@@ -1,7 +1,7 @@
 # NeuroAthlete – Cognitive Performance SaaS for Combat Sports
 
 ## Project Owner
-Imię Nazwisko  
+Oskar Wyszkowski  
 Student kognitywistyki  
 
 ## Project Status
