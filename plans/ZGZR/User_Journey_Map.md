@@ -1,4 +1,4 @@
-```markdown
+
 # User Journey Map — LookApp
 
 ## 🎯 Success Metric
