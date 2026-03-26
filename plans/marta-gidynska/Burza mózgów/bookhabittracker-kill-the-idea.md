@@ -143,25 +143,6 @@ BookHabitTracker nie przetrwa realnego rynku. Konkurencja z Goodreads i StoryGra
 
 ---
 
-### 🔀 Procedura Wyjścia (The Pivot Suggestion)
-
-**Pivot 1: Micro-Niche B2B** → **BookTracker for Teams** - trackowanie książek dla zespołów (book clubs, firmowe kluby książki)
-- Target: HR / Team Leaders (mają budżety)
-- Model: $99/rok dla zespołu do 10 osób
-- Moat: B2B features (leaderboard, dyskusje, raporty dla HR)
-
-**Pivot 2: Info-Product** → **Reading Challenge Masterclass** - kurs jak czytać 52 książki w rok
-- Target: Samoukowie chcący czytać więcej
-- Model: $49 jednorazowo
-- Moat: Content (know-how), nie software
-
-**Pivot 3: Community-First** → **52 Books Community** - płatna społeczność czytelników (Discord/Slack)
-- Target: Zaangażowani czytelnicy
-- Model: $10/miesiąc za dostęp do grupy
-- Moat: Community, networking, accountability
-
----
-
 ## 🎯 Rekomendacja Końcowa
 
 **Nie buduj BookHabitTracker jako SaaS.** 
@@ -170,11 +151,6 @@ Rynek jest:
 - Zdominowany przez darmowych gigantów (Goodreads, StoryGraph)
 - Bez gotowości do płacenia za trackowanie hobby
 - Łatwy do skopiowania przez każdego
-
-**Zamiast tego wybierz:**
-1. **BookTracker for Teams** (B2B - HR budgets)
-2. **Reading Challenge Masterclass** (Info-product - zero utrzymania)
-3. **52 Books Community** (Community - recurring revenue bez kodu)
 
 ---
 
