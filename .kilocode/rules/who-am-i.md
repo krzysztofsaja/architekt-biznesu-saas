@@ -1,4 +1,4 @@
-# who-am-i.md
+# Architekt Biznesu SaaS - Zasady Działania Agenta
 
 ## Guidelines
 

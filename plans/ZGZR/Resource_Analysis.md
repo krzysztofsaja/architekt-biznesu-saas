@@ -1,4 +1,3 @@
-```markdown
 # Resource Analysis — LookApp
 
 ## 1‑liner / Stage / Horyzont
