@@ -1,0 +1,10 @@
+{
+  "name": "smieciarka-app",
+  "version": "1.0.0",
+  "description": "Aplikacja Zero Waste - oddawanie rzeczy za darmo",
+  "scripts": {
+    "start": "echo 'Aplikacja gotowa do rozwoju'"
+  },
+  "author": "Natalia Okolot",
+  "license": "ISC"
+}
