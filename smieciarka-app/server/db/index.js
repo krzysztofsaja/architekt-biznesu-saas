@@ -1,134 +1,111 @@
-import pg from 'pg';
+import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { Pool } = pg;
+const supabaseUrl = process.env.SUPABASE_URL || 'https://viqzsrmclimcnweioqym.supabase.co';
+const supabaseKey = process.env.SUPABASE_KEY || 'sb_publishable_LtQCQ-a9r_8OqlcT6OI4Tw_BodMbBRZ';
 
-let pool = null;
-let useDatabase = false;
+let supabase = null;
+let useSupabase = false;
+
+if (supabaseUrl && supabaseKey) {
+  supabase = createClient(supabaseUrl, supabaseKey);
+}
 
 const inMemoryItems = [];
 const inMemoryMessages = [];
 let itemIdCounter = 1;
 let messageIdCounter = 1;
 
-if (process.env.DATABASE_URL) {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-  });
-
-  pool.on('error', (err) => {
-    console.error('Database error:', err.message);
-  });
-}
-
-export const useDb = () => useDatabase && pool;
+export const useDb = () => useSupabase && supabase;
 
 export const initDb = async () => {
-  if (!pool) {
-    console.log('⚠️  Brak bazy danych - tryb DEMO (pamięć)');
-    useDatabase = false;
+  if (!supabase) {
+    console.log('⚠️  Brak Supabase - tryb DEMO');
+    useSupabase = false;
     return;
   }
 
   try {
-    const client = await pool.connect({ timeout: 5000 });
-    await client.query('SELECT 1');
-    useDatabase = true;
-    console.log('✅ Połączono z bazą danych!');
-
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS items (
-        id SERIAL PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        description TEXT,
-        image TEXT,
-        latitude DECIMAL(10, 8),
-        longitude DECIMAL(11, 8),
-        address VARCHAR(255),
-        status VARCHAR(50) DEFAULT 'available',
-        contact VARCHAR(50),
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS messages (
-        id SERIAL PRIMARY KEY,
-        item_id INTEGER REFERENCES items(id) ON DELETE CASCADE,
-        sender VARCHAR(100),
-        message TEXT,
-        created_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-
-    console.log('✅ Tabele gotowe!');
-    client.release();
+    const { data, error } = await supabase.from('items').select('id').limit(1);
+    if (error) throw error;
+    useSupabase = true;
+    console.log('✅ Połączono z Supabase!');
   } catch (err) {
-    console.error('❌ Baza niedostępna:', err.message);
+    console.error('❌ Supabase error:', err.message);
     console.log('⚠️  Tryb DEMO aktywny');
-    useDatabase = false;
+    useSupabase = false;
   }
 };
 
 export const itemsDb = {
   getAll: async () => {
-    if (useDatabase && pool) {
-      const result = await pool.query('SELECT * FROM items ORDER BY created_at DESC');
-      return result.rows;
+    if (useSupabase && supabase) {
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return data || [];
     }
     return [...inMemoryItems].reverse();
   },
 
   getById: async (id) => {
-    if (useDatabase && pool) {
-      const result = await pool.query('SELECT * FROM items WHERE id = $1', [id]);
-      return result.rows[0];
+    if (useSupabase && supabase) {
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .eq('id', id)
+        .single();
+      return data;
     }
     return inMemoryItems.find(i => i.id == id);
   },
 
   create: async (item) => {
-    if (useDatabase && pool) {
-      const result = await pool.query(
-        `INSERT INTO items (title, description, image, latitude, longitude, address, contact) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
-        [item.title, item.description, item.image, item.latitude, item.longitude, item.address, item.contact]
-      );
-      return result.rows[0];
+    if (useSupabase && supabase) {
+      const { data, error } = await supabase
+        .from('items')
+        .insert(item)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
     }
-    const newItem = { ...item, id: itemIdCounter++, created_at: new Date(), updated_at: new Date() };
+    const newItem = { ...item, id: itemIdCounter++, created_at: new Date().toISOString(), updated_at: new Date().toISOString() };
     inMemoryItems.push(newItem);
     return newItem;
   },
 
   update: async (id, data) => {
-    if (useDatabase && pool) {
-      const fields = [];
-      const values = [];
-      let i = 1;
-      for (const [k, v] of Object.entries(data)) {
-        fields.push(`${k} = $${i++}`);
-        values.push(v);
-      }
-      values.push(id);
-      const result = await pool.query(`UPDATE items SET ${fields.join(',')}, updated_at = NOW() WHERE id = $${i} RETURNING *`, values);
-      return result.rows[0];
+    if (useSupabase && supabase) {
+      const { data: result, error } = await supabase
+        .from('items')
+        .update({ ...data, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .select()
+        .single();
+      if (error) throw error;
+      return result;
     }
     const idx = inMemoryItems.findIndex(i => i.id == id);
     if (idx >= 0) {
-      inMemoryItems[idx] = { ...inMemoryItems[idx], ...data, updated_at: new Date() };
+      inMemoryItems[idx] = { ...inMemoryItems[idx], ...data, updated_at: new Date().toISOString() };
       return inMemoryItems[idx];
     }
     return null;
   },
 
   delete: async (id) => {
-    if (useDatabase && pool) {
-      const result = await pool.query('DELETE FROM items WHERE id = $1 RETURNING *', [id]);
-      return result.rows[0];
+    if (useSupabase && supabase) {
+      const { error } = await supabase
+        .from('items')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+      return { id };
     }
     const idx = inMemoryItems.findIndex(i => i.id == id);
     if (idx >= 0) return inMemoryItems.splice(idx, 1)[0];
@@ -138,25 +115,32 @@ export const itemsDb = {
 
 export const messagesDb = {
   getByItemId: async (itemId) => {
-    if (useDatabase && pool) {
-      const result = await pool.query('SELECT * FROM messages WHERE item_id = $1 ORDER BY created_at ASC', [itemId]);
-      return result.rows;
+    if (useSupabase && supabase) {
+      const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('item_id', itemId)
+        .order('created_at', { ascending: true });
+      if (error) throw error;
+      return data || [];
     }
     return inMemoryMessages.filter(m => m.item_id == itemId).sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
   },
 
   create: async (msg) => {
-    if (useDatabase && pool) {
-      const result = await pool.query(
-        'INSERT INTO messages (item_id, sender, message) VALUES ($1,$2,$3) RETURNING *',
-        [msg.itemId, msg.sender, msg.message]
-      );
-      return result.rows[0];
+    if (useSupabase && supabase) {
+      const { data, error } = await supabase
+        .from('messages')
+        .insert({ item_id: msg.itemId, sender: msg.sender, message: msg.message })
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
     }
-    const newMsg = { ...msg, id: messageIdCounter++, created_at: new Date() };
+    const newMsg = { ...msg, id: messageIdCounter++, created_at: new Date().toISOString() };
     inMemoryMessages.push(newMsg);
     return newMsg;
   }
 };
 
-export default pool;
+export default supabase;
