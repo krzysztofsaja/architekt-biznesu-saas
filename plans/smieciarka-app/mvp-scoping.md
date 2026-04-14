@@ -12,7 +12,17 @@
 * **Rozbudowane profile użytkowników:** Wystarczy numer telefonu lub nick.
 * **System kurierski:** Użytkownicy sami organizują transport.
 
-## 3. Grupa docelowa
+## Grupa docelowa
 * Osoby robiące remonty/przeprowadzki.
 * Studenci szukający darmowego wyposażenia.
 * Pasjonaci renowacji mebli i Zero Waste.
+## 🏗️ 3. Architektura aplikacji (High Level)
+* **Model:** Client-Side Application (działa bezpośrednio w przeglądarce).
+* **Dane:** Synchronizacja lokalna – ogłoszenia zapisywane w pamięci urządzenia.
+* **AI:** Wykorzystanie gotowych modeli do rozpoznawania przedmiotów na zdjęciach.
+
+## 🛠️ 4. Tech Stack (Stos Technologiczny)
+* **Frontend:** HTML5, CSS3 (Tailwind CSS), JavaScript.
+* **Baza danych:** **Dexie.js** (IndexedDB) – to jest kluczowe wymaganie techniczne.
+* **Mapy:** Leaflet.js (do wyświetlania znalezisk).
+* **Narzędzia:** VS Code, GitHub, Kilo Code CLI.
