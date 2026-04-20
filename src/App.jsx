@@ -6,6 +6,7 @@ import ItemList from './components/ItemList';
 import Chat from './components/Chat';
 import Loading from './components/Loading';
 import Auth from './components/Auth';
+import Regulamin from './components/Regulamin';
 import { getItems, updateItem, getItemsByUser } from './db';
 import { getCurrentPosition } from './utils/geolocation';
 import { supabase } from './utils/supabase';
@@ -63,6 +64,7 @@ function App() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [authUser, setAuthUser] = useState(null);
+  const [showRegulamin, setShowRegulamin] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -180,10 +182,10 @@ function App() {
                 </button>
               ) : (
                 <button 
-                  onClick={() => setShowUserModal(true)}
+                  onClick={() => setShowRegulamin(true)}
                   className="bg-white/20 px-3 py-2 rounded-lg font-medium text-sm"
                 >
-                  👤
+                  📄
                 </button>
               )}
             </div>
@@ -352,6 +354,10 @@ function App() {
 
         {showUserModal && authUser && (
           <Auth onAuth={handleAuth} />
+        )}
+
+        {showRegulamin && (
+          <Regulamin onClose={() => setShowRegulamin(false)} />
         )}
 
         <button
