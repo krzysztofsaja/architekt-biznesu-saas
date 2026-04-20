@@ -9,6 +9,7 @@ import Auth from './components/Auth';
 import Regulamin from './components/Regulamin';
 import ReportModal from './components/ReportModal';
 import ReviewModal from './components/ReviewModal';
+import LandingModal from './components/LandingModal';
 import { getItems, updateItem, getItemsByUser } from './db';
 import { getCurrentPosition } from './utils/geolocation';
 import { supabase } from './utils/supabase';
@@ -67,6 +68,9 @@ function App() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [authUser, setAuthUser] = useState(null);
+  const [showLanding, setShowLanding] = useState(() => {
+    return !localStorage.getItem('sawLanding');
+  });
   const [showRegulamin, setShowRegulamin] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [showReview, setShowReview] = useState(false);
@@ -97,11 +101,18 @@ function App() {
   const handleAuth = async (user) => {
     setAuthUser(user);
     setShowUserModal(false);
+    localStorage.setItem('sawLanding', 'true');
     
     const permitted = await requestNotificationPermission();
     if (permitted) {
       console.log('Powiadomienia włączone!');
     }
+  };
+
+  const handleStartLanding = () => {
+    setShowLanding(false);
+    localStorage.setItem('sawLanding', 'true');
+    setShowUserModal(true);
   };
 
   const handleLogout = async () => {
@@ -171,6 +182,10 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      {showLanding && (
+        <LandingModal onStart={handleStartLanding} />
+      )}
+      
       <header className="bg-primary text-white p-4 shadow-md z-50 relative">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-3">
