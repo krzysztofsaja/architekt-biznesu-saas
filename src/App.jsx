@@ -137,7 +137,7 @@ function App() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto p-4">
+      <main className="max-w-6xl mx-auto p-4 relative z-10">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden flex relative z-10" style={{ height: 'calc(100vh - 120px)' }}>
           {showList && (
             <div className="w-80 border-r flex-shrink-0 relative z-20">
@@ -246,7 +246,7 @@ function App() {
 
         <button
           onClick={() => setShowForm(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-green-600 md:hidden z-40"
+          className="fixed bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-green-600 md:hidden z-50"
         >
           +
         </button>
