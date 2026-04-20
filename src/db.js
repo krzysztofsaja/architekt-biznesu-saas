@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-import { supabase } from './supabase';
+import { supabase } from './utils/supabase';
 
 export const db = new Dexie('SmieciarkaDB');
 

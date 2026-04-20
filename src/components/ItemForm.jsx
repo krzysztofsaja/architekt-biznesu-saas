@@ -48,7 +48,7 @@ export default function ItemForm({ onSave, onCancel }) {
     }
     
     if (!location) {
-      setError('Pobierz lokalizację przed dodaniem');
+      setError('Pobierz lokalizację GPS - kliknij przycisk 📍');
       return;
     }
 
@@ -61,8 +61,8 @@ export default function ItemForm({ onSave, onCancel }) {
         description: description.trim(),
         contact: contact.trim(),
         image: imagePreview,
-        latitude: location.latitude,
-        longitude: location.longitude,
+        latitude: location?.latitude || 52.2297,
+        longitude: location?.longitude || 21.0122,
         address: ''
       };
 
