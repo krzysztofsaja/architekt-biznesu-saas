@@ -60,13 +60,23 @@ export default function ItemForm({ onSave, onCancel, userId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!title.trim()) {
-      setError('Wpisz tytuł przedmiotu');
+    if (!title.trim() || title.trim().length < 3) {
+      setError('Tytuł musi mieć min. 3 znaki');
+      return;
+    }
+    
+    if (contact.trim() && !/^[\d\s\+\-]+$/.test(contact.trim())) {
+      setError('Nieprawidłowy numer telefonu');
       return;
     }
     
     if (!location) {
       setError('Pobierz lokalizację GPS - kliknij przycisk 📍');
+      return;
+    }
+
+    if (!contact.trim()) {
+      setError('Podaj numer kontaktowy');
       return;
     }
 

@@ -152,6 +152,13 @@ function App() {
     }
   };
 
+  const handleGive = async () => {
+    if (selectedItem) {
+      await updateItem(selectedItem.id, { status: 'given' });
+      loadItems();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-primary text-white p-4 shadow-md z-50 relative">
@@ -292,8 +299,11 @@ function App() {
                   selectedItem.status === 'reserved' ? 'bg-yellow-100 text-yellow-800' :
                   'bg-gray-100 text-gray-800'
                 }`}>
-                  {selectedItem.status === 'available' ? 'Dostępny' :
-                   selectedItem.status === 'reserved' ? 'Zarezerwowany' : 'Oddany'}
+                  {selectedItem.status === 'available' ? '✓ Dostępny' :
+                   selectedItem.status === 'reserved' ? '⏳ Zarezerwowany' : '✓ Oddany'}
+                </span>
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                  {selectedItem.category}
                 </span>
               </div>
               {selectedItem.contact && (
@@ -317,6 +327,14 @@ function App() {
                     className="flex-1 bg-accent text-white py-2 rounded-lg"
                   >
                     Rezerwuj
+                  </button>
+                )}
+                {selectedItem.status === 'reserved' && (
+                  <button 
+                    onClick={handleGive}
+                    className="flex-1 bg-green-600 text-white py-2 rounded-lg"
+                  >
+                    ODDANE ✓
                   </button>
                 )}
                 <button 
