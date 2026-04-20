@@ -108,7 +108,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <header className="bg-primary text-white p-4 shadow-md">
+      <header className="bg-primary text-white p-4 shadow-md z-50 relative">
         <div className="max-w-6xl mx-auto flex justify-between items-center md:justify-between">
           <h1 className="text-xl font-bold">🗑️ Smieciarka App</h1>
           <div className="flex gap-2">

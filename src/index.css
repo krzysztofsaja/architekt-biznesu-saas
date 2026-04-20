@@ -13,6 +13,15 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+header {
+  z-index: 50 !important;
+  position: relative;
+}
+
+.leaflet-container {
+  z-index: 1 !important;
+}
+
 #root {
   width: 100%;
   min-height: 100vh;
