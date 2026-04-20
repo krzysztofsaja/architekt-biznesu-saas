@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { addItem as addItemToDb } from '../db';
 import { getCurrentPosition } from '../utils/geolocation';
+import { supabase } from '../utils/supabase';
 
 export default function ItemForm({ onSave, onCancel, userId }) {
   const [title, setTitle] = useState('');
@@ -9,10 +10,26 @@ export default function ItemForm({ onSave, onCancel, userId }) {
   const [category, setCategory] = useState('inne');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
+
+  const uploadImage = async (file) => {
+    const fileName = `${Date.now()}-${file.name}`;
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(fileName, file);
+    
+    if (error) throw error;
+    
+    const { data: { publicUrl } } = supabase.storage
+      .from('images')
+      .getPublicUrl(fileName);
+    
+    return publicUrl;
+  };
 
   const handleGetLocation = async () => {
     try {
@@ -57,12 +74,18 @@ export default function ItemForm({ onSave, onCancel, userId }) {
     setError(null);
 
     try {
+      let imageUrl = null;
+      
+      if (image) {
+        imageUrl = await uploadImage(image);
+      }
+
       const item = {
         title: title.trim(),
         description: description.trim(),
         contact: contact.trim(),
         category: category,
-        image: imagePreview,
+        image: imageUrl,
         latitude: location?.latitude || 52.2297,
         longitude: location?.longitude || 21.0122,
         user_id: userId
