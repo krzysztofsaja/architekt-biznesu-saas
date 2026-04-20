@@ -7,6 +7,7 @@ import Chat from './components/Chat';
 import Loading from './components/Loading';
 import Auth from './components/Auth';
 import Regulamin from './components/Regulamin';
+import ReportModal from './components/ReportModal';
 import { getItems, updateItem, getItemsByUser } from './db';
 import { getCurrentPosition } from './utils/geolocation';
 import { supabase } from './utils/supabase';
@@ -65,6 +66,7 @@ function App() {
   const [category, setCategory] = useState('all');
   const [authUser, setAuthUser] = useState(null);
   const [showRegulamin, setShowRegulamin] = useState(false);
+  const [showReport, setShowReport] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -181,12 +183,17 @@ function App() {
                 📦 Moje
               </button>
               {authUser ? (
-                <button 
-                  onClick={handleLogout}
-                  className="bg-red-500 px-3 py-2 rounded-lg font-medium text-sm"
-                >
-                  🚪
-                </button>
+                <>
+                  <div className="flex items-center gap-1 bg-yellow-500 px-2 py-1 rounded-lg text-xs font-bold">
+                    ⭐ Lv.1
+                  </div>
+                  <button 
+                    onClick={handleLogout}
+                    className="bg-red-500 px-3 py-2 rounded-lg font-medium text-sm"
+                  >
+                    🚪
+                  </button>
+                </>
               ) : (
                 <>
                   <button 
@@ -351,6 +358,12 @@ function App() {
                 >
                   Czat
                 </button>
+                <button 
+                  onClick={() => setShowReport(true)}
+                  className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg text-sm"
+                >
+                  ⚠️ Zgłoś
+                </button>
               </div>
             </div>
           </div>
@@ -384,6 +397,14 @@ function App() {
 
         {showRegulamin && (
           <Regulamin onClose={() => setShowRegulamin(false)} />
+        )}
+
+        {showReport && selectedItem && (
+          <ReportModal 
+            itemId={selectedItem.id}
+            itemTitle={selectedItem.title}
+            onClose={() => setShowReport(false)}
+          />
         )}
 
         <button
