@@ -12,6 +12,7 @@ import ReviewModal from './components/ReviewModal';
 import { getItems, updateItem, getItemsByUser } from './db';
 import { getCurrentPosition } from './utils/geolocation';
 import { supabase } from './utils/supabase';
+import { requestNotificationPermission, showNotification } from './utils/notifications';
 
 function UserModal({ onSave }) {
   const [name, setName] = useState('');
@@ -93,9 +94,14 @@ function App() {
     });
   };
 
-  const handleAuth = (user) => {
+  const handleAuth = async (user) => {
     setAuthUser(user);
     setShowUserModal(false);
+    
+    const permitted = await requestNotificationPermission();
+    if (permitted) {
+      console.log('Powiadomienia włączone!');
+    }
   };
 
   const handleLogout = async () => {
@@ -189,6 +195,18 @@ function App() {
                   <div className="flex items-center gap-1 bg-yellow-500 px-2 py-1 rounded-lg text-xs font-bold">
                     ⭐ Lv.1
                   </div>
+                  <button 
+                    onClick={async () => {
+                      const permitted = await requestNotificationPermission();
+                      if (permitted) {
+                        alert('Powiadomienia włączone!');
+                      }
+                    }}
+                    className="bg-white/20 px-3 py-2 rounded-lg font-medium text-sm"
+                    title="Włącz powiadomienia"
+                  >
+                    🔔
+                  </button>
                   <button 
                     onClick={handleLogout}
                     className="bg-red-500 px-3 py-2 rounded-lg font-medium text-sm"
