@@ -5,8 +5,10 @@ import ItemForm from './components/ItemForm';
 import ItemList from './components/ItemList';
 import Chat from './components/Chat';
 import Loading from './components/Loading';
-import { getItems, updateItem } from './db';
+import Auth from './components/Auth';
+import { getItems, updateItem, getItemsByUser } from './db';
 import { getCurrentPosition } from './utils/geolocation';
+import { supabase } from './utils/supabase';
 
 function UserModal({ onSave }) {
   const [name, setName] = useState('');
@@ -46,6 +48,7 @@ function UserModal({ onSave }) {
 
 function App() {
   const [items, setItems] = useState([]);
+  const [myItems, setMyItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -56,8 +59,13 @@ function App() {
   });
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState('home');
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('all');
+  const [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
+    checkAuth();
     console.log('App montowana, currentUser:', currentUser);
     if (currentUser) {
       setShowUserModal(false);
@@ -68,13 +76,49 @@ function App() {
       .catch(console.warn);
   }, []);
 
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      setAuthUser(session.user);
+    }
+    
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthUser(session?.user || null);
+    });
+  };
+
+  const handleAuth = (user) => {
+    setAuthUser(user);
+    setShowUserModal(false);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setAuthUser(null);
+    localStorage.removeItem('smieciarka-user');
+  };
+
   const loadItems = async () => {
     try {
       setLoading(true);
       console.log('Ładowanie przedmiotów...');
-      const data = await getItems();
+      let data = await getItems();
+      if (search) {
+        data = data.filter(i => 
+          i.title?.toLowerCase().includes(search.toLowerCase()) ||
+          i.description?.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      if (category !== 'all') {
+        data = data.filter(i => i.category === category);
+      }
       console.log('Załadowano:', data.length, 'przedmiotów');
       setItems(data);
+      
+      if (authUser) {
+        const myData = await getItemsByUser(authUser.id);
+        setMyItems(myData);
+      }
     } catch (err) {
       console.error('Błąd ładowania:', err);
     } finally {
@@ -109,45 +153,105 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-primary text-white p-4 shadow-md z-50 relative">
-        <div className="max-w-6xl mx-auto flex justify-between items-center md:justify-between">
-          <h1 className="text-xl font-bold">🗑️ Smieciarka App</h1>
-          <div className="flex gap-2">
-            <button 
-              onClick={() => setShowList(!showList)}
-              className={`px-3 py-2 rounded-lg font-medium text-sm ${showList ? 'bg-white text-primary' : 'bg-white/20 text-white'}`}
-            >
-              📋 Lista
-            </button>
-            <span className="bg-white/20 px-2 py-1 rounded text-sm">
-              {items.length}
-            </span>
-            <button 
-              onClick={() => setShowForm(true)}
-              className="bg-white text-primary px-4 py-2 rounded-lg font-medium hover:bg-green-50"
-            >
-              + Dodaj
-            </button>
-            <button 
-              onClick={() => loadItems()}
-              className="bg-white/20 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/30"
-            >
-              ↻
-            </button>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex justify-between items-center mb-3">
+            <h1 className="text-xl font-bold cursor-pointer" onClick={() => setPage('home')}>
+              🗑️ Smieciarka
+            </h1>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setPage('home')}
+                className={`px-3 py-2 rounded-lg font-medium text-sm ${page === 'home' ? 'bg-white text-primary' : 'bg-white/20'}`}
+              >
+                🏠
+              </button>
+              <button 
+                onClick={() => setPage('my')}
+                className={`px-3 py-2 rounded-lg font-medium text-sm ${page === 'my' ? 'bg-white text-primary' : 'bg-white/20'}`}
+              >
+                📦 Moje
+              </button>
+              {authUser ? (
+                <button 
+                  onClick={handleLogout}
+                  className="bg-red-500 px-3 py-2 rounded-lg font-medium text-sm"
+                >
+                  🚪
+                </button>
+              ) : (
+                <button 
+                  onClick={() => setShowUserModal(true)}
+                  className="bg-white/20 px-3 py-2 rounded-lg font-medium text-sm"
+                >
+                  👤
+                </button>
+              )}
+            </div>
           </div>
+          
+          {page === 'home' && (
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && loadItems()}
+                placeholder="Szukaj..."
+                className="flex-1 px-3 py-2 rounded-lg text-gray-800"
+              />
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="px-2 py-2 rounded-lg text-gray-800 text-sm"
+              >
+                <option value="all">Wszystkie</option>
+                <option value="meble">Meble</option>
+                <option value="elektronika">Elektronika</option>
+                <option value="odziez">Odzież</option>
+                <option value="sport">Sport</option>
+                <option value="zabawki">Zabawki</option>
+                <option value="ksiazki">Książki</option>
+                <option value="ogrod">Ogród</option>
+                <option value="inne">Inne</option>
+              </select>
+              <button 
+                onClick={loadItems}
+                className="bg-white/20 px-3 py-2 rounded-lg"
+              >
+                🔍
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto p-4 relative z-10">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden flex relative z-10" style={{ height: 'calc(100vh - 120px)' }}>
-          {showList && (
-            <div className="w-80 border-r flex-shrink-0 relative z-20">
-              <ItemList 
-                items={items} 
-                onItemClick={handleMarkerClick}
-                userLocation={userLocation}
-              />
-            </div>
-          )}
+        {page === 'my' ? (
+          <div className="bg-white rounded-lg shadow-lg p-4">
+            <h2 className="text-xl font-bold mb-4">Moje przedmioty ({myItems.length})</h2>
+            {myItems.length === 0 ? (
+              <p className="text-gray-500">Nie dodałeś żadnych przedmiotów.</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {myItems.map(item => (
+                  <div key={item.id} className="border rounded-lg p-4">
+                    <h3 className="font-bold">{item.title}</h3>
+                    <p className="text-sm text-gray-600">{item.description}</p>
+                    <span className={`inline-block mt-2 px-2 py-1 rounded text-sm ${
+                      item.status === 'available' ? 'bg-green-100 text-green-800' :
+                      item.status === 'reserved' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-gray-100'
+                    }`}>
+                      {item.status === 'available' ? 'Dostępny' : 
+                       item.status === 'reserved' ? 'Zarezerwowany' : 'Oddany'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden flex relative z-10" style={{ height: 'calc(100vh - 180px)' }}>
           <div className="flex-1">
             {loading ? (
               <Loading text="Ładowanie mapy..." />
@@ -159,8 +263,9 @@ function App() {
             )}
           </div>
         </div>
+        )}
 
-        {items.length === 0 && !loading && (
+        {page === 'home' && items.length === 0 && !loading && (
           <div className="mt-4 text-center text-gray-500">
             <p>Brak przedmiotów na mapie.</p>
             <p className="text-sm">Kliknij "Dodaj przedmiot" aby coś wystawić.</p>
@@ -227,6 +332,7 @@ function App() {
           <ItemForm 
             onSave={handleSaveItem}
             onCancel={() => setShowForm(false)}
+            userId={authUser?.id}
           />
         )}
 
@@ -244,9 +350,13 @@ function App() {
           />
         )}
 
+        {showUserModal && authUser && (
+          <Auth onAuth={handleAuth} />
+        )}
+
         <button
           onClick={() => setShowForm(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-green-600 md:hidden z-50"
+          className="fixed bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-green-600 z-50"
         >
           +
         </button>

@@ -5,14 +5,26 @@
 -- Tabela items (przedmioty)
 CREATE TABLE IF NOT EXISTS items (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID,
   title TEXT NOT NULL,
   description TEXT,
+  category TEXT DEFAULT 'inne',
   status TEXT DEFAULT 'available',
   latitude NUMERIC,
   longitude NUMERIC,
   contact TEXT,
+  image TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Tabela profiles (profil)
+CREATE TABLE IF NOT EXISTS profiles (
+  id UUID PRIMARY KEY,
+  username TEXT,
+  avatar_url TEXT,
+  phone TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Tabela messages (wiadomości)

@@ -132,5 +132,5 @@ MIT License
 
 ---
 
-**Autor:** Natalia Saja  
+**Autor:** Natalia Okołot  
 **Projekt:** dla przedmiotu Architektura Biznesowa SaaS

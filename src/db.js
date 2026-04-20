@@ -10,11 +10,12 @@ db.version(1).stores({
 
 const useSupabase = true;
 
-export const addItem = async (item) => {
+export const addItem = async (item, userId = null) => {
   if (useSupabase) {
     console.log('Dodawanie do Supabase:', item);
     const { data, error } = await supabase.from('items').insert([{
       ...item,
+      user_id: userId,
       status: 'available',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
@@ -96,6 +97,24 @@ export const getItemsByStatus = async (status) => {
     return data;
   }
   return await db.items.where('status').equals(status).toArray();
+};
+
+export const getItemsByUser = async (userId) => {
+  if (useSupabase) {
+    const { data, error } = await supabase.from('items').select('*').eq('user_id', userId);
+    if (error) throw error;
+    return data;
+  }
+  return await db.items.where('userId').equals(userId).toArray();
+};
+
+export const getItemsByCategory = async (category) => {
+  if (useSupabase) {
+    const { data, error } = await supabase.from('items').select('*').eq('category', category);
+    if (error) throw error;
+    return data;
+  }
+  return await db.items.where('category').equals(category).toArray();
 };
 
 export const addMessage = async (message) => {

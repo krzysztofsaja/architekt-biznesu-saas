@@ -2,10 +2,11 @@ import { useState, useRef } from 'react';
 import { addItem as addItemToDb } from '../db';
 import { getCurrentPosition } from '../utils/geolocation';
 
-export default function ItemForm({ onSave, onCancel }) {
+export default function ItemForm({ onSave, onCancel, userId }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [contact, setContact] = useState('');
+  const [category, setCategory] = useState('inne');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [location, setLocation] = useState(null);
@@ -60,12 +61,14 @@ export default function ItemForm({ onSave, onCancel }) {
         title: title.trim(),
         description: description.trim(),
         contact: contact.trim(),
+        category: category,
         image: imagePreview,
         latitude: location?.latitude || 52.2297,
-        longitude: location?.longitude || 21.0122
+        longitude: location?.longitude || 21.0122,
+        user_id: userId
       };
 
-      await addItemToDb(item);
+      await addItemToDb(item, userId);
       onSave?.(item);
     } catch (err) {
       setError('Błąd zapisu: ' + err.message);
@@ -119,6 +122,26 @@ export default function ItemForm({ onSave, onCancel }) {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-transparent"
               required
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Kategoria *
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
+              <option value="meble">Meble</option>
+              <option value="elektronika">Elektronika</option>
+              <option value="odziez">Odzież</option>
+              <option value="sport">Sport</option>
+              <option value="zabawki">Zabawki</option>
+              <option value="ksiazki">Książki</option>
+              <option value="ogrod">Ogród</option>
+              <option value="inne">Inne</option>
+            </select>
           </div>
 
           <div>
