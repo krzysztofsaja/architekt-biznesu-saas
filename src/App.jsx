@@ -8,6 +8,7 @@ import Loading from './components/Loading';
 import Auth from './components/Auth';
 import Regulamin from './components/Regulamin';
 import ReportModal from './components/ReportModal';
+import ReviewModal from './components/ReviewModal';
 import { getItems, updateItem, getItemsByUser } from './db';
 import { getCurrentPosition } from './utils/geolocation';
 import { supabase } from './utils/supabase';
@@ -67,6 +68,7 @@ function App() {
   const [authUser, setAuthUser] = useState(null);
   const [showRegulamin, setShowRegulamin] = useState(false);
   const [showReport, setShowReport] = useState(false);
+  const [showReview, setShowReview] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -364,6 +366,14 @@ function App() {
                 >
                   ⚠️ Zgłoś
                 </button>
+                {selectedItem.status === 'given' && authUser && (
+                  <button 
+                    onClick={() => setShowReview(true)}
+                    className="flex-1 bg-yellow-400 text-gray-800 py-2 rounded-lg text-sm"
+                  >
+                    ⭐ Oceń
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -404,6 +414,15 @@ function App() {
             itemId={selectedItem.id}
             itemTitle={selectedItem.title}
             onClose={() => setShowReport(false)}
+          />
+        )}
+
+        {showReview && selectedItem && authUser && (
+          <ReviewModal 
+            itemId={selectedItem.id}
+            itemTitle={selectedItem.title}
+            currentUserId={authUser.id}
+            onClose={() => setShowReview(false)}
           />
         )}
 
