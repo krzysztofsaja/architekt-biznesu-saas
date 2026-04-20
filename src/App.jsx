@@ -138,9 +138,9 @@ function App() {
       </header>
 
       <main className="max-w-6xl mx-auto p-4">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden flex" style={{ height: 'calc(100vh - 120px)' }}>
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden flex relative z-10" style={{ height: 'calc(100vh - 120px)' }}>
           {showList && (
-            <div className="w-80 border-r flex-shrink-0">
+            <div className="w-80 border-r flex-shrink-0 relative z-20">
               <ItemList 
                 items={items} 
                 onItemClick={handleMarkerClick}
