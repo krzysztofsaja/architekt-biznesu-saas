@@ -188,12 +188,20 @@ function App() {
                   🚪
                 </button>
               ) : (
-                <button 
-                  onClick={() => setShowRegulamin(true)}
-                  className="bg-white/20 px-3 py-2 rounded-lg font-medium text-sm"
-                >
-                  📄
-                </button>
+                <>
+                  <button 
+                    onClick={() => setShowUserModal(true)}
+                    className="bg-white/20 px-3 py-2 rounded-lg font-medium text-sm"
+                  >
+                    👤
+                  </button>
+                  <button 
+                    onClick={() => setShowRegulamin(true)}
+                    className="bg-white/20 px-3 py-2 rounded-lg font-medium text-sm"
+                  >
+                    📄
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -364,13 +372,13 @@ function App() {
           />
         )}
 
-        {showUserModal && (
+        {showUserModal && !currentUser && !authUser && (
           <UserModal 
             onSave={handleSaveUser}
           />
         )}
 
-        {showUserModal && authUser && (
+        {showUserModal && !authUser && (
           <Auth onAuth={handleAuth} />
         )}
 
