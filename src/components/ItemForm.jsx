@@ -76,7 +76,7 @@ export default function ItemForm({ onSave, onCancel }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 overflow-y-auto z-[100]">
       <div className="bg-white rounded-lg p-6 max-w-lg w-full my-8">
         <h2 className="text-xl font-bold mb-4">Dodaj przedmiot</h2>
         

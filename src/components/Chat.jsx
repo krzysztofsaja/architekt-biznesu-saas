@@ -49,7 +49,7 @@ export default function Chat({ itemId, currentUser, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-[100]">
       <div className="bg-white rounded-lg w-full max-w-lg h-[500px] flex flex-col">
         <div className="p-4 border-b flex justify-between items-center">
           <h3 className="font-bold">Czat</h3>
