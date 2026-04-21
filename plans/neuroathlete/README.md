@@ -1,62 +1,57 @@
-# NeuroAthlete – Cognitive Performance SaaS for Combat Sports
+# NeuroAthlete – SaaS dla sportowców (taekwondo)
 
-## Project Owner
-Oskar Wyszkowski  
-Student Kognitywistyki  
-
-## Project Status
-Gotowy do MVP
+## 👤 Autor
+Imię i nazwisko: Oskar Wyszkowski  
+Kierunek: Kognitywistyka  
+Przedmiot: Tworzenie aplikacji mobilnych  
 
 ---
 
-## Opis Projektu
+## 📌 Opis projektu
 
-**NeuroAthlete** to platforma SaaS typu mobile-first przeznaczona do treningu funkcji poznawczych sportowców sportów walki, ze szczególnym uwzględnieniem **taekwondo**.
+NeuroAthlete to aplikacja mobilna w modelu SaaS, której celem jest rozwijanie zdolności poznawczych sportowców — w szczególności:
 
-Produkt łączy wiedzę z zakresu:
-- kognitywistyki,
-- neuropsychologii,
-- oraz nauk o sporcie
+- refleksu  
+- koncentracji  
+- podejmowania decyzji  
 
-w celu poprawy:
-- refleksu,
-- koncentracji,
-- decyzyjności pod presją,
-- odporności mentalnej zawodników.
-
-NeuroAthlete adresuje lukę pomiędzy klasycznym treningiem fizycznym a systematycznym treningiem mózgu sportowca.
+Projekt skupia się na niszy sportów walki (np. taekwondo), gdzie szybkość reakcji ma kluczowe znaczenie.
 
 ---
 
-## Dla kogo jest NeuroAthlete?
+## 🎯 Problem
 
-### Główne grupy docelowe:
-- zawodnicy taekwondo (amatorzy i półprofesjonaliści)
-- trenerzy sportów walki
-- kluby i akademie taekwondo
-- trenerzy przygotowania mentalnego
+Obecnie:
 
----
-
-## Zakres Projektu
-
-Projekt powstał w ramach przedmiotu:
-**Tworzenie aplikacji mobilnych / Architektura biznesowa SaaS**
-
-Celem projektu jest:
-- walidacja biznesowa i produktowa pomysłu,
-- zaprojektowanie MVP,
-- przygotowanie fundamentów pod wdrożenie aplikacji mobilnej.
-
-Projekt nie obejmuje implementacji kodu – skupia się na analizie i dokumentacji SaaS.
+- brak dedykowanych narzędzi do treningu refleksu dla sportowców  
+- trening mentalny jest pomijany  
+- brak mierzalnych efektów rozwoju poznawczego  
 
 ---
 
-## Metodologia
+## 💡 Rozwiązanie
 
-W projekcie wykorzystano workflowy z repozytorium **architekt-biznesu-saas**, w szczególności:
+NeuroAthlete oferuje:
 
+- trening refleksu (reaction time)  
+- trening koncentracji  
+- system pomiaru postępów  
+
+👉 wszystko w formie prostej aplikacji mobilnej  
+
+---
+
+## 🧠 Metodologia
+
+Projekt został wykonany zgodnie z workflowami z repozytorium:
+
+👉 architekt-biznesu-saas  
+
+Wykorzystane procesy:
+
+- WF_Idea_Generation  
 - WF_Kill_The_Idea  
+- WF_ICP_Persona  
 - WF_Competitor_Audit  
 - WF_MVP_Scoping  
 - WF_User_Journey_Map  
@@ -66,22 +61,92 @@ W projekcie wykorzystano workflowy z repozytorium **architekt-biznesu-saas**, w 
 
 ---
 
-## Struktura dokumentacji
+## 📂 Struktura projektu
 
-| Dokument | Opis |
-|----------|--------|
-| [project-description.md](project-description.md) | Opis pomysłu, problemu, rozwiązania i modelu SaaS |
-| [kill-the-idea-report.md](kill-the-idea-report.md) | Krytyczna analiza pomysłu (WF_Kill_The_Idea) |
-| [competitor-audit.md](competitor-audit.md) | Analiza konkurencji i pozycji rynkowej |
-| [mvp-scope-and-user-journey.md](mvp-scope-and-user-journey.md) | Definicja MVP i mapy użytkownika |
-| [tech-stack-and-resources.md](tech-stack-and-resources.md) | Architektura, technologie i zasoby |
-| [gtm-strategy.md](gtm-strategy.md) | Strategia wejścia na rynek |
+### 📄 Dokumenty
+
+- [_idea_generation.md](./_idea_generation.md)  
+  → proces powstania pomysłu  
+
+- [_kill_the_idea.md](./_kill_the_idea.md)  
+  → analiza ryzyk i walidacja pomysłu  
+
+- [_icp_persona.md](./_icp_persona.md)  
+  → profil idealnego użytkownika  
+
+- [_job_to_be_done.md](./_job_to_be_done.md)  
+  → potrzeby użytkownika  
+
+- [_competitor_audit.md](./_competitor_audit.md)  
+  → analiza konkurencji  
+
+- [_mvp_scoping.md](./_mvp_scoping.md)  
+  → zakres MVP  
+
+- [_user_journey_map.md](./_user_journey_map.md)  
+  → ścieżka użytkownika  
+
+- [_tech_stack_audit.md](./_tech_stack_audit.md)  
+  → wybór technologii  
+
+- [_resource_analysis.md](./_resource_analysis.md)  
+  → analiza zasobów  
+
+- [_monetization_strategy.md](./_monetization_strategy.md)  
+  → model zarabiania  
+
+- [_gtm_strategy.md](./_gtm_strategy.md)  
+  → strategia wejścia na rynek  
+
+- [_ice_ranking.md](./_ice_ranking.md)  
+  → priorytety funkcji  
 
 ---
 
-## Cel końcowy projektu
+## 🚀 Status projektu
 
-Celem projektu NeuroAthlete jest:
-> stworzenie realistycznego, innowacyjnego i możliwego do skomercjalizowania projektu SaaS dedykowanego sportom walki, w szczególności taekwondo.
+🟢 Gotowy do MVP  
 
-Projekt jest gotowy do przejścia w fazę implementacji MVP.
+Projekt przeszedł:
+
+- analizę biznesową  
+- analizę produktową  
+- analizę techniczną  
+
+👉 kolejny krok: implementacja aplikacji mobilnej  
+
+---
+
+## 🏆 Kluczowe wnioski
+
+- istnieje nisza dla sportowców (szczególnie sporty walki)  
+- brak bezpośredniej konkurencji  
+- MVP jest możliwe do stworzenia przez 1 osobę  
+- model freemium daje potencjał monetyzacji  
+
+---
+
+## 📈 Potencjał rozwoju
+
+- wersja dla trenerów (B2B)  
+- personalizacja treningu  
+- integracja z wearables  
+- elementy AI  
+
+---
+
+## ✅ Podsumowanie
+
+NeuroAthlete to:
+
+✔ realistyczny projekt SaaS  
+✔ oparty na realnym problemie  
+✔ zgodny z metodologią Lean  
+✔ gotowy do wdrożenia MVP  
+
+---
+
+## 🔗 Repozytorium
+
+Projekt realizowany w ramach:  
+https://github.com/krzysztofsaja/architekt-biznesu-saas
