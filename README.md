@@ -126,6 +126,11 @@ Aplikacja jest w pełni responsywna:
 - Tryb desktop: lista po lewej, mapa po prawej
 - Tryb mobile: lista ukryta, mapa na cały ekran
 
+## 🌐 Wersja online
+
+Aplikacja została wdrożona na platformie Vercel i jest dostępna pod adresem:
+**https://smieciarka-app.vercel.app**
+
 ## 📄 Licencja
 
 MIT License
