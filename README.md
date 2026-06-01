@@ -131,6 +131,10 @@ Aplikacja jest w pełni responsywna:
 Aplikacja została wdrożona na platformie Vercel i jest dostępna pod adresem:
 **https://smieciarka-app.vercel.app**
 
+## 📂 Repozytorium GitHub
+
+Kod źródłowy projektu jest dostępny na GitHubie: https://github.com/krzysztofsaja/architekt-biznesu-saas
+
 ## 📄 Licencja
 
 MIT License
