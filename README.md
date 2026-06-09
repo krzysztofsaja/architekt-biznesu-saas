@@ -2,6 +2,90 @@
 
 Aplikacja do oddawania niepotrzebnych przedmiotów w sąsiedztwie. Znajdź i oddaj rzeczy, które już nie są Ci potrzebne!
 
+## 📘 Spec Driven Development (SDD)
+
+Projekt **smieciarka-app** jest realizowany przy użyciu metodyki **Spec Driven Development**. Oznacza to, że:
+
+- ✅ **Specyfikacja poprzedza kod** – każda funkcjonalność ma jawny plan
+- ✅ **Repozytorium = Źródło Prawdy** – wszystkie decyzje są dokumentowane
+- ✅ **AI-First Development** – plany są generowane dla agentów AI (Kilo CLI)
+- ✅ **Audytowalność** – każda zmiana ma powiązaną dokumentację
+- ✅ **Deployment live** – aplikacja działa na Vercel: https://smieciarka-app.vercel.app
+
+### 📂 Struktura SDD
+
+```
+/docs
+  /architecture      – decyzje architektoniczne (ADR), system overview
+  /business          – wizja produktu, user stories
+  /tech              – stos technologiczny, konwencje
+  /plans             – PLANY funkcjonalności (PLAN_*.md) ← CORE
+  /roles             – wytyczne dla ról: Developer, Architect, Tester
+    /developer       – standardy kodu, best practices
+    /architect       – decyzje systemu, C4 diagramy
+    /tester          – strategie testowania
+```
+
+### 🎯 Lista planów (11/11 ✅)
+
+| Plan | Opis | Status |
+|------|------|--------|
+| [PLAN_user_authentication.md](docs/plans/PLAN_user_authentication.md) | Logowanie & rejestracja | ✅ |
+| [PLAN_add_item.md](docs/plans/PLAN_add_item.md) | Dodawanie przedmiotów | ✅ |
+| [PLAN_map_display.md](docs/plans/PLAN_map_display.md) | Mapa interaktywna | ✅ |
+| [PLAN_item_list.md](docs/plans/PLAN_item_list.md) | Lista przedmiotów + filtry | ✅ |
+| [PLAN_chat_messaging.md](docs/plans/PLAN_chat_messaging.md) | Chat 1:1 | ✅ |
+| [PLAN_user_reviews.md](docs/plans/PLAN_user_reviews.md) | Oceny & opinie | ✅ |
+| [PLAN_item_reporting.md](docs/plans/PLAN_item_reporting.md) | Zgłaszanie przedmiotów | ✅ |
+| [PLAN_offline_mode.md](docs/plans/PLAN_offline_mode.md) | Tryb offline (Dexie) | ✅ |
+| [PLAN_data_synchronization.md](docs/plans/PLAN_data_synchronization.md) | Synchronizacja real-time | ✅ |
+| [PLAN_notifications.md](docs/plans/PLAN_notifications.md) | Powiadomienia | ✅ |
+| [PLAN_publish_application.md](docs/plans/PLAN_publish_application.md) | Publikacja na Vercel | ✅ |
+
+**👉 Pełną listę planów znajdziesz w:** [docs/plans/implemented_plans.md](docs/plans/implemented_plans.md)
+
+---
+
+## 🤖 Kilo CLI – Workflow AI
+
+Projekt jest skonfigurowany do pracy z **Kilo CLI** – agentem AI do automatyzacji pracy projektowej.
+
+### 1️⃣ Workflow: PLAN
+
+Generowanie specyfikacji dla nowej funkcjonalności:
+
+```bash
+kilo run WF_Plan_Feature --project-dir "c:\Users\natal\Desktop\smieciarka-app\smieciarka-app"
+```
+
+**Wejście:** Opis funkcjonalności  
+**Wyjście:** Kompletny plik `/docs/plans/PLAN_*.md`
+
+### 2️⃣ Workflow: IMPLEMENT
+
+Implementacja funkcjonalności na bazie planu:
+
+```bash
+kilo run WF_Implement_Feature --plan "PLAN_add_item.md"
+```
+
+**Wejście:** Plik `PLAN_*.md`  
+**Wyjście:** 
+- Kod (src/components/*.jsx, src/utils/*.js)
+- Testy (src/__tests__/*.test.js)
+- Aktualizacja: `implemented_plans.md` + `implemented_features.md`
+
+### 3️⃣ Instrukcje dla Kilo CLI
+
+Wszystkie plany znajdują się w `/docs/plans/`:
+- Każdy plik = jedna mała funkcjonalność
+- Struktura: Cel, Zakres, Wymagania, Kontekst techniczny, Kroki, Kryteria, Testy
+- Gotowe do automatyzacji ✅
+
+**Projekt jest widoczny dla agenta Kilo CLI –** wszystkie plany, rola Developer, Architect, Tester są dostępne w katalogu `/docs`.
+
+---
+
 ## 🎯 Funkcje
 
 - **Mapa** - wyświetla przedmioty na mapie OpenStreetMap
@@ -78,7 +162,7 @@ CREATE POLICY "Public read messages" ON messages FOR SELECT USING (true);
 CREATE POLICY "Public insert messages" ON messages FOR INSERT WITH CHECK (true);
 ```
 
-###Zmienne środowiskowe
+### Zmienne środowiskowe
 
 Utwórz plik `.env`:
 
@@ -106,6 +190,12 @@ smieciarka-app/
 │   └── utils/
 │       ├── supabase.ts # Klient Supabase
 │       └── geolocation.js # GPS
+├── docs/
+│   ├── architecture/    # Decyzje (ADR), system overview
+│   ├── business/        # Wizja, user stories
+│   ├── plans/           # PLANY funkcjonalności (SDD)
+│   ├── roles/           # Developer, Architect, Tester
+│   └── tech/            # Tech stack, konwencje
 ├── supabase-setup.sql   # SQL do Supabase
 ├── SETUP.md            # Szczegółowa instrukcja
 ├── package.json
@@ -141,5 +231,25 @@ MIT License
 
 ---
 
+## 👥 Role projektowe
+
+- 👨‍💼 **Product Owner:** [docs/roles/product_owner/responsibilities.md](docs/roles/product_owner/responsibilities.md)
+- 👨‍🎨 **UX/UI Designer:** [docs/roles/ux_ui/guidelines.md](docs/roles/ux_ui/guidelines.md)
+- 👨‍💻 **Developer:** [docs/roles/developer/standards.md](docs/roles/developer/standards.md)
+- 🏗️ **Architect:** [docs/roles/architect/decisions.md](docs/roles/architect/decisions.md)
+- 🧪 **Tester:** [docs/roles/tester/strategy.md](docs/roles/tester/strategy.md)
+
+---
+
+## 📚 Dokumentacja dodatkowa
+
+- **Wizja produktu:** [docs/business/product_vision.md](docs/business/product_vision.md)
+- **System Overview:** [docs/architecture/system_overview.md](docs/architecture/system_overview.md)
+- **Tech Stack:** [docs/tech/stack.md](docs/tech/stack.md)
+- **Decyzje architektoniczne:** [docs/architecture/adr_001.md](docs/architecture/adr_001.md), [adr_002.md](docs/architecture/adr_002.md)
+
+---
+
 **Autor:** Natalia Okołot  
-**Projekt:** dla przedmiotu Architektura Biznesowa SaaS
+**Projekt:** Architektura Biznesowa SaaS  
+**Metodologia:** Spec Driven Development (SDD)
