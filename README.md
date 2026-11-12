@@ -16,19 +16,23 @@ Repozytorium jest przeznaczone dla:
 
 ## Struktura Katalogów
 
-- **`.kilocode/`**: Konfiguracja i reguły dla narzędzia Kilo Code, w tym workflowy analityczne (np. `WF_Kill_The_Idea`, `WF_MVP_Scoping`).
-  - `rules/who-am-i.md`: Definicja roli i zasad działania.
-  - `workflows/`: Gotowe workflowy do analizy pomysłów (generowanie pomysłów, analiza konkurencji, scoping MVP itp.).
-- **`ideas-reviews/`**: Recenzje i analizy istniejących pomysłów SaaS (np. `legal-ai-document-generator.md`).
 - **`plans/`**: Plany projektów SaaS. Każdy projekt ma własny podkatalog (np. `ethical-code-generator/`) zawierający:
   - `README.md`: Główny plik z opisem projektu, właścicielem i spisem treści.
-  - Dokumenty analityczne: Opis pomysłu, raporty z workflowów, analizy ryzyk itp.
+  - Dokumenty analityczne: Opis pomysłu, raporty z procedur analitycznych, analizy ryzyk itp.
 - **`README.md`**: Ten plik – wprowadzenie do repozytorium.
 
+## Metodyka (skill `saas-architect`)
+
+Dawne workflowy `.kilocode/` zostały przeniesione do globalnego skilla agenta **`saas-architect`** oraz globalnej reguły persony. Skill zawiera 12 procedur analitycznych w 4 fazach:
+
+- **Discovery:** `idea-generation`, `ice-ranking`, `kill-the-idea`
+- **Market Fit:** `competitor-audit`, `icp-persona`, `job-to-be-done`
+- **Product Scope:** `mvp-scoping`, `user-journey-map`, `monetization-strategy`
+- **Feasibility:** `tech-stack-audit`, `resource-analysis`, `gtm-strategy`
+
 ## Jak Korzystać
-1. **Dla Studentów:** Wykonaj zadanie dokumentacyjne – stwórz własny podkatalog w `plans/` z kompletną analizą pomysłu SaaS, używając workflowów.
-2. **Dla Developerów:** Skorzystaj z workflowów do walidacji własnego pomysłu przed inwestycją w kod.
-3. **Workflowy:** Uruchamiaj poprzez wywołania (np. `WF_Kill_The_Idea`) – każdy workflow generuje raporty i rekomendacje.
+1. **Dla Studentów:** Wykonaj zadanie dokumentacyjne – stwórz własny podkatalog w `plans/` z kompletną analizą pomysłu SaaS, używając procedur ze skilla `saas-architect`.
+2. **Dla Developerów:** Użyj procedur do walidacji własnego pomysłu przed inwestycją w kod (np. "przeprowadź pre-mortem mojego pomysłu" → `kill-the-idea`).
 
 ## Przykład Projektu
 Zobacz `plans/ethical-code-generator/` – przykład dokumentacji dla pomysłu na generator kodeksów etycznych. Zawiera README, opis pomysłu i analizę ryzyk (choć niepełną).
