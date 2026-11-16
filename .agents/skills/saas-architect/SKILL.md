@@ -43,6 +43,16 @@ Metodyka walidacji i rozwoju pomysłów SaaS dla solo developerów. Rola: analit
 | Audyt czasu, budżetu i zewnętrznych integracji | `references/resource-analysis.md` |
 | Plan pozyskania pierwszych użytkowników (Go-To-Market) | `references/gtm-strategy.md` |
 
+## Zapisywanie wyników w `plans/`
+
+**Zasada:** każdy wynik procedury MUSI zostać zapisany jako plik Markdown — analiza istnieje dopiero, gdy jest na dysku, nie tylko w odpowiedzi.
+
+1. **Jeden pomysł = jeden katalog** `plans/<nazwa-projektu>/` w katalogu głównym repo. Nazwa: kebab-case, krótka, opisująca pomysł (np. `plans/smieciarka-app`). Jeśli dla tego samego pomysłu katalog już istnieje — dopisuj do niego, nie twórz nowego. Jeśli to nowy pomysł — nowy katalog.
+2. **Jeden plik na procedurę**: pełny wynik analizy zapisuj do `plans/<nazwa-projektu>/<nazwa-procedury>.md` (np. `kill-the-idea.md`, `mvp-scoping.md`, `competitor-audit.md`). Jeśli plik już istnieje, zaktualizuj go zamiast nadpisywać bezmyślnie.
+3. **`README.md` jako indeks**: po pierwszym zapisaniu utwórz/aktualizuj `plans/<nazwa-projektu>/README.md` — krótki opis pomysłu, lista plików z linkami i statusem (np. "w trakcie walidacji", "pomysł zabity").
+4. **Pełna treść na dysku**: plik Markdown zawiera CAŁY output procedury (tabele, werdykty, sekcje `[RISKS]`). W odpowiedzi do użytkownika daj streszczenie + link do pliku.
+5. Dodatkowe pliki robocze (notatki, ankiety) też trafiają do tego samego katalogu.
+
 ## Sugerowanie następnego kroku
 
 Po zakończeniu procedury zawsze zaproponuj logiczny następny:
